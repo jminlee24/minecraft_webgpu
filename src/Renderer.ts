@@ -15,7 +15,6 @@ export class Renderer {
     this.configCanvas();
     await this.loadShaders();
     this.configurePipeline();
-    this.configureBindGroup();
     this.configureRenderPassDescriptor();
     this.render();
     this.observeResize();

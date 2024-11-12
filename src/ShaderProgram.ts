@@ -1,3 +1,8 @@
+const shader_files = import.meta.glob("./shaders/*.wgsl", {
+  query: "?raw",
+  import: "default",
+});
+
 export class ShaderProgram {
   public vertexShader!: GPUShaderModule;
   public fragmentShader!: GPUShaderModule;
@@ -6,14 +11,17 @@ export class ShaderProgram {
   constructor(private device: GPUDevice) {
     this.uniformValues = {};
   }
-  public async init(vertexPath: string, fragPath: string) {
+  public async init(vertexPath: string, fragmentPath: string) {
+    const vstr = (await shader_files[vertexPath]()) as string;
+    const fstr = (await shader_files[fragmentPath]()) as string;
+
     this.vertexShader = this.device.createShaderModule({
       label: "Vertex Shader",
-      code: (await import(vertexPath + "?raw")).default,
+      code: vstr,
     });
     this.fragmentShader = this.device.createShaderModule({
       label: "Fragment Shader",
-      code: (await import(fragPath + "?raw")).default,
+      code: fstr,
     });
   }
 
