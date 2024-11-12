@@ -1,26 +1,30 @@
-struct VertexOut {
-  @builtin(position) pos : vec4f,
-  @location(0) color : vec4f
+struct OurStruct {
+  color : vec4f,
+  offset : vec3f,
+  scale : vec3f,
 };
 
+struct Vertex{
+  position : vec3f
+};
 
-@vertex
-fn vs(@builtin(vertex_index) vertexIndex : u32) -> VertexOut{
-  let pos = array(
-  vec2f(0, 0.8),
-  vec2f(-0.8, -0.8),
-  vec2f(0.8, -0.8),
-  );
+struct VSOutput {
+  @builtin(position) position : vec4f,
+  @location(0) color : vec4f,
+};
 
-  let color = array(
-  vec4f(1.0, .0, .0, 1.0),
-  vec4f(0.0, 1.0, .0, 1.0),
-  vec4f(0.0, .0, 1.0, 1.0),
-  );
+@group(0) @binding(0) var<uniform> ourStruct : OurStruct;
+@group(0) @binding(1) var<uniform> scale : vec3f;
+@group(0) @binding(2) var<storage, read> pos : array<Vertex>;
 
-  var out : VertexOut;
-  out.pos = vec4f(pos[vertexIndex], 0.0, 1.0);
-  out.color = color[vertexIndex];
+@vertex fn vs(
+@builtin(vertex_index) vertexIndex : u32,
+@builtin(instance_index) instanceIndex : u32
+) -> VSOutput {
 
-  return out;
+  var vsOut : VSOutput;
+  vsOut.position = vec4f(pos[vertexIndex].position * scale + ourStruct.offset, 1.0);
+  vsOut.color = vec4f(pos[vertexIndex].position, 1);
+  return vsOut;
+
 }
