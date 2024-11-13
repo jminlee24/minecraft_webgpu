@@ -24,7 +24,7 @@ struct VSOutput {
 
   var vsOut : VSOutput;
   vsOut.position = vec4f(pos[vertexIndex].position * scale + ourStruct.offset, 1.0);
-  vsOut.color = vec4f(pos[vertexIndex].position, 1);
+  vsOut.color = ourStruct.color;
   return vsOut;
 
 }
