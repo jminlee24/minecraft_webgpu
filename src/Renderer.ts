@@ -24,6 +24,9 @@ function createTriangle() {
     ],
     0
   );
+  colorData.set([255, 0, 0, 255], 16);
+  colorData.set([0, 255, 0, 255], 36);
+  colorData.set([0, 0, 255, 255], 56);
   return { vertexData, numVertices, colorData };
 }
 
@@ -127,7 +130,7 @@ export class Renderer {
     const uniformValues = new Float32Array(uniformBufferSize / 4);
     const scaleValues = new Float32Array(scaleBufferSize / 4);
 
-    uniformValues.set([0, 1, 1, 1], 0);
+    uniformValues.set([1, 1, 1, 1], 0);
     uniformValues.set([0, 0, 0], 4);
 
     this.device.queue.writeBuffer(uniformBuffer, 0, uniformValues);
