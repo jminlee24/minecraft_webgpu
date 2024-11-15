@@ -5,7 +5,7 @@ struct OurStruct {
 };
 
 struct Vertex{
-  position : vec3f
+  @location(1) vertexColor : vec4f
 };
 
 struct VSOutput {
@@ -18,13 +18,14 @@ struct VSOutput {
 @group(0) @binding(2) var<storage, read> pos : array<Vertex>;
 
 @vertex fn vs(
-@builtin(vertex_index) vertexIndex : u32,
+@location(0) position : vec3f,
+@location(1) vertexColor : vec4f,
 @builtin(instance_index) instanceIndex : u32
 ) -> VSOutput {
 
   var vsOut : VSOutput;
-  vsOut.position = vec4f(pos[vertexIndex].position * scale + ourStruct.offset, 1.0);
-  vsOut.color = ourStruct.color;
+  vsOut.position = vec4f(position * scale + ourStruct.offset, 1.0);
+  vsOut.color = ourStruct.color * vertexColor;
   return vsOut;
 
 }
