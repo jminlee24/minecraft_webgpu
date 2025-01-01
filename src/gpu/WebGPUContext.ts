@@ -37,4 +37,20 @@ class Context {
 
     resizeObserver.observe(this.canvas);
     this.resize();
+  }
 
+  public resize() {
+    const w = Math.floor(this.canvas.clientWidth);
+    const h = Math.floor(this.canvas.clientHeight);
+
+    if (w != this.windowWidth || h != this.windowHeight) {
+      this.canvas.width = this.windowWidth = w;
+      this.canvas.height = this.windowHeight = h;
+      this.aspect = w / h;
+    }
+  }
+}
+
+const webgpuContext = new Context();
+
+export default webgpuContext;
