@@ -58,7 +58,7 @@ export default class Cube {
         }),
         buffers: [
           {
-            arrayStride: 4 * 4,
+            arrayStride: 4 * 3,
             attributes: [{ shaderLocation: 0, offset: 0, format: "float32x3" }],
           },
         ],

@@ -1,3 +1,4 @@
+import Scene from "../Scene";
 import { default as context } from "./WebGPUContext";
 
 export default class Renderer {
@@ -20,7 +21,7 @@ export default class Renderer {
     };
   }
 
-  render() {
+  render(scene: Scene) {
     (
       this.renderPassDescriptor
         .colorAttachments as GPURenderPassColorAttachment[]
@@ -30,6 +31,12 @@ export default class Renderer {
     const pass = encoder.beginRenderPass(this.renderPassDescriptor);
 
     // draw all the stuff
+    for (let i = 0; i < scene.objects.length; i++) {
+      if (i == 0) {
+        scene.objects[i].init(pass);
+      }
+      scene.objects[i].draw(pass);
+    }
 
     pass.end();
 
